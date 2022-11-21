@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -34,6 +33,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  //Define variables
   TextEditingController movietitle = TextEditingController();
   String mImg =
       'http://probablyprogramming.com/wp-content/uploads/2009/03/handtinytrans.gif';
@@ -42,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String year = "-";
   String rating = "-";
 
+  //application Appearance
   @override
   Widget build(BuildContext context) {
     return Scaffold(
