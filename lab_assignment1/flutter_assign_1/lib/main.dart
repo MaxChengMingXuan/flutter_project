@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
       'http://probablyprogramming.com/wp-content/uploads/2009/03/handtinytrans.gif';
   String mTitle = '';
   String runtime = '-';
-  String year = "-";
+  String genre = "-";
   String rating = "-";
 
   //application Appearance
@@ -107,9 +107,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                         margin: const EdgeInsets.all(10),
                                         child: Column(
                                           children: [
-                                            const Text("Year",
+                                            const Text("Rating",
                                                 style: TextStyle(fontSize: 20)),
-                                            Text(year,
+                                            Text(rating,
                                                 style: const TextStyle(
                                                     fontSize: 20)),
                                           ],
@@ -139,11 +139,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                     margin: const EdgeInsets.all(10),
                                     child: Column(
                                       children: [
-                                        const Text("Rotten Tomatoes Rating",
+                                        const Text("Genre",
                                             style: TextStyle(fontSize: 20)),
-                                        Text(rating,
+                                        Text(genre,
                                             style:
-                                                const TextStyle(fontSize: 20)),
+                                                const TextStyle(fontSize: 15)),
                                       ],
                                     ),
                                   ),
@@ -195,12 +195,12 @@ class _MyHomePageState extends State<MyHomePage> {
       var parsedJson = json.decode(jsonData);
 
       setState(() {
-        var nyear = parsedJson['Year'];
+        var ngenre = parsedJson['Genre'];
         var nruntime = parsedJson['Runtime'];
         var nrating = parsedJson['Ratings'][1]['Value'];
         var imgUrl = parsedJson['Poster'];
 
-        year = nyear.toString();
+        genre = ngenre.toString();
         runtime = nruntime.toString();
         rating = nrating.toString();
         mImg = imgUrl.toString();
