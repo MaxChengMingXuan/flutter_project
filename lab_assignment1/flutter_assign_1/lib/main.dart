@@ -224,6 +224,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  //Confirmation Dialog
   showConfDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = MaterialButton(
