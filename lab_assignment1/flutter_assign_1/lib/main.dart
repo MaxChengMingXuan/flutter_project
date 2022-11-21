@@ -88,7 +88,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 minWidth: 10,
                                 onPressed: () {
                                   showConfDialog(context); //fun1
-                                  //_showImg(); //fun2
                                 },
                                 color: const Color.fromARGB(255, 154, 185, 215),
                                 child: const Text("Search"),
