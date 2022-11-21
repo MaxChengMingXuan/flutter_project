@@ -163,6 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  //search for the movie
   Future<void> _search() async {
     ProgressDialog progressDialog = ProgressDialog(context,
         message: const Text("Progress"), title: const Text("Searching..."));
