@@ -136,7 +136,7 @@ class _HostScreenState extends State<HostScreen> {
                                     width: resWidth / 2,
                                     fit: BoxFit.cover,
                                     imageUrl:
-                                        "${Config.SERVER}/assets/homestayimages/${homestayList[index].homestayId}.png",
+                                        "${Config.SERVER}/assets/homestayimages/${homestayList[index].homestayId}_1.png",
                                     placeholder: (context, url) =>
                                         const LinearProgressIndicator(),
                                     errorWidget: (context, url, error) =>

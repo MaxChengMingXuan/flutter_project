@@ -26,6 +26,8 @@ class NewHomestayScreen extends StatefulWidget {
 }
 
 class _NewHomestayScreenState extends State<NewHomestayScreen> {
+  int _index = 0;
+
   final TextEditingController _hsnameEditingController =
       TextEditingController();
   final TextEditingController _hsdescEditingController =
@@ -54,6 +56,7 @@ class _NewHomestayScreenState extends State<NewHomestayScreen> {
   }
 
   File? _image;
+  List<File> _imageList = [];
   var pathAsset = "assets/images/pic.png";
   bool _isChecked = false;
 
@@ -63,21 +66,23 @@ class _NewHomestayScreenState extends State<NewHomestayScreen> {
         appBar: AppBar(title: const Text("New Homestay")),
         body: SingleChildScrollView(
           child: Column(children: [
-            GestureDetector(
-              onTap: _selectImageDialog,
-              child: Card(
-                elevation: 8,
-                child: Container(
-                  height: 250,
-                  width: 250,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                    image: _image == null
-                        ? AssetImage(pathAsset)
-                        : FileImage(_image!) as ImageProvider,
-                    fit: BoxFit.cover,
-                  )),
-                ),
+            Center(
+              child: SizedBox(
+                height: 200, // card height
+                child: PageView.builder(
+                    itemCount: 3,
+                    controller: PageController(viewportFraction: 0.7),
+                    onPageChanged: (int index) =>
+                        setState(() => _index = index),
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index == 0) {
+                        return PageOne();
+                      } else if (index == 1) {
+                        return PageTwo();
+                      } else {
+                        return PageThree();
+                      }
+                    }),
               ),
             ),
             Padding(
@@ -252,7 +257,7 @@ class _NewHomestayScreenState extends State<NewHomestayScreen> {
   }
 
   void _newProductDialog() {
-    if (_image == null) {
+    if (_imageList.length < 2) {
       Fluttertoast.showToast(
           msg: "Please take picture of your homestay",
           toastLength: Toast.LENGTH_SHORT,
@@ -400,7 +405,7 @@ class _NewHomestayScreenState extends State<NewHomestayScreen> {
     );
     if (croppedFile != null) {
       File imageFile = File(croppedFile.path);
-      _image = imageFile;
+      _imageList.add(_image!);
       setState(() {});
     }
   }
@@ -413,7 +418,9 @@ class _NewHomestayScreenState extends State<NewHomestayScreen> {
     String pax = _hspaxEditingController.text;
     String state = _hsstateEditingController.text;
     String local = _hslocalEditingController.text;
-    String base64Image = base64Encode(_image!.readAsBytesSync());
+    String base64Image1 = base64Encode(_imageList[0].readAsBytesSync());
+    String base64Image2 = base64Encode(_imageList[1].readAsBytesSync());
+    String base64Image3 = base64Encode(_imageList[2].readAsBytesSync());
 
     http.post(Uri.parse("${Config.SERVER}/php/insert_homestay.php"), body: {
       "userid": widget.user.id,
@@ -426,7 +433,9 @@ class _NewHomestayScreenState extends State<NewHomestayScreen> {
       "local": local,
       "lat": _lat,
       "lon": _lng,
-      "image": base64Image
+      "img01": base64Image1,
+      "img02": base64Image2,
+      "img03": base64Image3,
     }).then((response) {
       var data = jsonDecode(response.body);
       if (response.statusCode == 200 && data['status'] == "success") {
@@ -448,5 +457,77 @@ class _NewHomestayScreenState extends State<NewHomestayScreen> {
         return;
       }
     });
+  }
+
+  Widget PageOne() {
+    return Transform.scale(
+      scale: 1,
+      child: Card(
+          elevation: 6,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: GestureDetector(
+            onTap: _selectImageDialog,
+            child: Container(
+              height: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                image: _imageList.isNotEmpty
+                    ? FileImage(_imageList[0]) as ImageProvider
+                    : AssetImage(pathAsset),
+                fit: BoxFit.cover,
+              )),
+            ),
+          )),
+    );
+  }
+
+  Widget PageTwo() {
+    return Transform.scale(
+      scale: 1,
+      child: Card(
+          elevation: 6,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: GestureDetector(
+            onTap: _selectImageDialog,
+            child: Container(
+              height: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                image: _imageList.length > 1
+                    ? FileImage(_imageList[1]) as ImageProvider
+                    : AssetImage(pathAsset),
+                fit: BoxFit.cover,
+              )),
+            ),
+          )),
+    );
+  }
+
+  Widget PageThree() {
+    return Transform.scale(
+      scale: 1,
+      child: Card(
+          elevation: 6,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: GestureDetector(
+            onTap: _selectImageDialog,
+            child: Container(
+              height: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                image: _imageList.length > 2
+                    ? FileImage(_imageList[2]) as ImageProvider
+                    : AssetImage(pathAsset),
+                fit: BoxFit.cover,
+              )),
+            ),
+          )),
+    );
   }
 }
