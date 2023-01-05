@@ -40,6 +40,13 @@ dependencies:
   shared_preferences: ^2.0.15
   http: ^0.13.5
   fluttertoast: ^8.1.2
+  cached_network_image: ^3.2.3
+  geocoding: ^2.0.5
+  geolocator: ^9.0.2
+  ndialog: ^4.2.2
+  intl: ^0.18.0
+  image_picker: ^0.8.6
+  image_cropper: ^3.0.1
 
 dev_dependencies:
   flutter_test:
