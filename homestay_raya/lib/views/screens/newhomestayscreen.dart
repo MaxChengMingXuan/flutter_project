@@ -76,11 +76,11 @@ class _NewHomestayScreenState extends State<NewHomestayScreen> {
                         setState(() => _index = index),
                     itemBuilder: (BuildContext context, int index) {
                       if (index == 0) {
-                        return PageOne();
+                        return Image1();
                       } else if (index == 1) {
-                        return PageTwo();
+                        return Image2();
                       } else {
-                        return PageThree();
+                        return Image3();
                       }
                     }),
               ),
@@ -459,7 +459,7 @@ class _NewHomestayScreenState extends State<NewHomestayScreen> {
     });
   }
 
-  Widget PageOne() {
+  Widget Image1() {
     return Transform.scale(
       scale: 1,
       child: Card(
@@ -483,7 +483,7 @@ class _NewHomestayScreenState extends State<NewHomestayScreen> {
     );
   }
 
-  Widget PageTwo() {
+  Widget Image2() {
     return Transform.scale(
       scale: 1,
       child: Card(
@@ -507,7 +507,7 @@ class _NewHomestayScreenState extends State<NewHomestayScreen> {
     );
   }
 
-  Widget PageThree() {
+  Widget Image3() {
     return Transform.scale(
       scale: 1,
       child: Card(
