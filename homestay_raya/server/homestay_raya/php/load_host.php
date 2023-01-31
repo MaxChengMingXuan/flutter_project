@@ -5,10 +5,9 @@ if (!isset($_POST)) {
     die();
 }
 include_once("dbconnect.php");
-$email = $_POST['email'];
-$password = sha1($_POST['password']);
-$sqllogin = "SELECT * FROM tbl_users WHERE user_email = '$email' AND user_password = '$password'";
-$result = $conn->query($sqllogin);
+$hostid = $_POST['hostid'];
+$sqlloadhost = "SELECT * FROM tbl_users WHERE user_id = '$hostid'";
+$result = $conn->query($sqlloadhost);
 
 if ($result->num_rows > 0) {
 	while ($row = $result->fetch_assoc()) {
@@ -19,6 +18,7 @@ if ($result->num_rows > 0) {
     $userlist['phone'] = $row['user_phone'];
     $userlist['address'] = $row['user_address'];
     $userlist['regdate'] = $row['user_datereg'];
+		$userlist['credit'] = $row['user_credit'];
     $response = array('status' => 'success', 'data' => $userlist);
     sendJsonResponse($response);
 	}
