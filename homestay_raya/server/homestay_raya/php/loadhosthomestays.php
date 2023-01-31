@@ -18,7 +18,7 @@
 			$hslist['homestay_name'] = $row['homestay_name'];
 			$hslist['homestay_desc'] = $row['homestay_desc'];
 			$hslist['homestay_price'] = $row['homestay_price'];
-			$hslist['homestay_park'] = $row['homestay_park'];
+			$hslist['homestay_parking'] = $row['homestay_parking'];
 			$hslist['homestay_pax'] = $row['homestay_pax'];
 			$hslist['homestay_state'] = $row['homestay_state'];
 			$hslist['homestay_local'] = $row['homestay_local'];
