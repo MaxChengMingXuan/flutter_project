@@ -115,7 +115,7 @@ class _HomestayDetailsState extends State<HomestayDetails> {
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
-                        Text('Quantity', style: TextStyle(fontSize: 20.0))
+                        Text('Pax', style: TextStyle(fontSize: 20.0))
                       ]),
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
