@@ -6,7 +6,7 @@ import 'package:homestay_raya/views/screens/mainscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-import '../../config.dart';
+import '../../serverconfig.dart';
 import '../../models/user.dart';
 import 'registrationscreen.dart';
 
@@ -187,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     String _email = _emailEditingController.text;
     String _pass = _passEditingController.text;
-    http.post(Uri.parse("${Config.SERVER}/php/login_user.php"),
+    http.post(Uri.parse("${ServerConfig.SERVER}/php/login_user.php"),
         body: {"email": _email, "password": _pass}).then((response) {
       print(response.body);
       var jsonResponse = json.decode(response.body);

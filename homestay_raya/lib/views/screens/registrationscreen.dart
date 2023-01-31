@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../config.dart';
+import '../../serverconfig.dart';
 import '../../models/user.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -348,13 +348,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       // http.post(
       //     Uri.parse(
       //         "http://192.168.58.227/homestay_raya/php/register_user.php"),
-      http.post(Uri.parse("${Config.SERVER}/php/register_user.php"), body: {
-        "name": name,
-        "email": email,
-        "phone": phone,
-        "password": pass,
-        "register": "register"
-      }).then((response) {
+      http.post(Uri.parse("${ServerConfig.SERVER}/php/register_user.php"),
+          body: {
+            "name": name,
+            "email": email,
+            "phone": phone,
+            "password": pass,
+            "register": "register"
+          }).then((response) {
         //print(response.body);
         var data = jsonDecode(response.body);
         if (response.statusCode == 200 && data['status'] == "success") {

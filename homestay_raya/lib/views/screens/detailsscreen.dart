@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../config.dart';
+import '../../serverconfig.dart';
 import 'package:http/http.dart' as http;
 import '../../models/homestay.dart';
 import '../../models/user.dart';
@@ -23,19 +23,20 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  var pathAsset = "assets/images/camera.png";
+  List<Homestay> homestayList = <Homestay>[];
+  var pathAsset = "assets/images/pic.png";
   bool _isChecked = false;
-  final TextEditingController _prnameEditingController =
+  final TextEditingController _hsnameEditingController =
       TextEditingController();
-  final TextEditingController _prdescEditingController =
+  final TextEditingController _hsdescEditingController =
       TextEditingController();
-  final TextEditingController _prpriceEditingController =
+  final TextEditingController _hspriceEditingController =
       TextEditingController();
-  final TextEditingController _prdelEditingController = TextEditingController();
-  final TextEditingController _prqtyEditingController = TextEditingController();
-  final TextEditingController _prstateEditingController =
+  final TextEditingController _hsparEditingController = TextEditingController();
+  final TextEditingController _hspaxEditingController = TextEditingController();
+  final TextEditingController _hsstateEditingController =
       TextEditingController();
-  final TextEditingController _prlocalEditingController =
+  final TextEditingController _hslocalEditingController =
       TextEditingController();
   final _formKey = GlobalKey<FormState>();
   File? _image;
@@ -45,17 +46,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   void initState() {
     super.initState();
-    _prnameEditingController.text = widget.homestay.homestayName.toString();
-    _prdescEditingController.text = widget.homestay.homestayDesc.toString();
-    _prpriceEditingController.text = widget.homestay.homestayPrice.toString();
-    _prdelEditingController.text = widget.homestay.homestayPark.toString();
-    _prqtyEditingController.text = widget.homestay.homestayPax.toString();
-    _prstateEditingController.text = widget.homestay.homestayState.toString();
-    _prlocalEditingController.text = widget.homestay.homestayLocal.toString();
+    _hsnameEditingController.text = widget.homestay.homestayName.toString();
+    _hsdescEditingController.text = widget.homestay.homestayDesc.toString();
+    _hspriceEditingController.text = widget.homestay.homestayPrice.toString();
+    _hsparEditingController.text = widget.homestay.homestayParking.toString();
+    _hspaxEditingController.text = widget.homestay.homestayPax.toString();
+    _hsstateEditingController.text = widget.homestay.homestayState.toString();
+    _hslocalEditingController.text = widget.homestay.homestayLocal.toString();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.homestay.homestayParking.toString());
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth <= 600) {
@@ -76,7 +78,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     width: resWidth,
                     fit: BoxFit.cover,
                     imageUrl:
-                        "${Config.SERVER}/assets/homestayimages/${widget.homestay.homestayId}.png",
+                        "${ServerConfig.SERVER}/assets/homestayimages/${widget.homestay.homestayId}_1.png",
                     placeholder: (context, url) =>
                         const LinearProgressIndicator(),
                     errorWidget: (context, url, error) =>
@@ -100,7 +102,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ),
                   TextFormField(
                       textInputAction: TextInputAction.next,
-                      controller: _prnameEditingController,
+                      controller: _hsnameEditingController,
                       validator: (val) => val!.isEmpty || (val.length < 3)
                           ? "homestay name must be longer than 3"
                           : null,
@@ -114,7 +116,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           ))),
                   TextFormField(
                       textInputAction: TextInputAction.next,
-                      controller: _prdescEditingController,
+                      controller: _hsdescEditingController,
                       validator: (val) => val!.isEmpty || (val.length < 10)
                           ? "homestay description must be longer than 10"
                           : null,
@@ -136,7 +138,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         flex: 5,
                         child: TextFormField(
                             textInputAction: TextInputAction.next,
-                            controller: _prpriceEditingController,
+                            controller: _hspriceEditingController,
                             validator: (val) => val!.isEmpty
                                 ? "homestay price must contain value"
                                 : null,
@@ -153,13 +155,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         flex: 5,
                         child: TextFormField(
                             textInputAction: TextInputAction.next,
-                            controller: _prqtyEditingController,
+                            controller: _hspaxEditingController,
                             validator: (val) => val!.isEmpty
-                                ? "Quantity should be more than 0"
+                                ? "Pax should be more than 0"
                                 : null,
                             keyboardType: TextInputType.number,
                             decoration: const InputDecoration(
-                                labelText: 'homestay Quantity',
+                                labelText: 'homestay Pax',
                                 labelStyle: TextStyle(),
                                 icon: Icon(Icons.ad_units),
                                 focusedBorder: OutlineInputBorder(
@@ -179,7 +181,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       ? "Current State"
                                       : null,
                               enabled: false,
-                              controller: _prstateEditingController,
+                              controller: _hsstateEditingController,
                               keyboardType: TextInputType.text,
                               decoration: const InputDecoration(
                                   labelText: 'Current States',
@@ -196,7 +198,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             validator: (val) => val!.isEmpty || (val.length < 3)
                                 ? "Current Locality"
                                 : null,
-                            controller: _prlocalEditingController,
+                            controller: _hslocalEditingController,
                             keyboardType: TextInputType.text,
                             decoration: const InputDecoration(
                                 labelText: 'Current Locality',
@@ -213,12 +215,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       flex: 5,
                       child: TextFormField(
                           textInputAction: TextInputAction.next,
-                          controller: _prdelEditingController,
+                          controller: _hsparEditingController,
                           validator: (val) =>
                               val!.isEmpty ? "Must be more than zero" : null,
                           keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
-                              labelText: 'Delivery charge/km',
+                              labelText: 'Parking Fees',
                               labelStyle: TextStyle(),
                               icon: Icon(Icons.delivery_dining),
                               focusedBorder: OutlineInputBorder(
@@ -277,7 +279,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           title: const Text(
-            "Update this product/service?",
+            "Update this homestay?",
             style: TextStyle(),
           ),
           content: const Text("Are you sure?", style: TextStyle()),
@@ -308,21 +310,22 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   void _updateProduct() {
-    String prname = _prnameEditingController.text;
-    String prdesc = _prdescEditingController.text;
-    String prprice = _prpriceEditingController.text;
-    String delivery = _prdelEditingController.text;
-    String qty = _prqtyEditingController.text;
+    String hsname = _hsnameEditingController.text;
+    String hsdesc = _hsdescEditingController.text;
+    String hsprice = _hspriceEditingController.text;
+    String park = _hsparEditingController.text;
+    String pax = _hspaxEditingController.text;
 
-    http.post(Uri.parse("${Config.SERVER}/php/update_homestay.php"), body: {
-      "homestayid": widget.homestay.homestayId,
-      "userid": widget.user.id,
-      "prname": prname,
-      "prdesc": prdesc,
-      "prprice": prprice,
-      "delivery": delivery,
-      "qty": qty,
-    }).then((response) {
+    http.post(Uri.parse("${ServerConfig.SERVER}/php/update_homestay.php"),
+        body: {
+          "homestayid": widget.homestay.homestayId,
+          "userid": widget.user.id,
+          "hsname": hsname,
+          "hsdesc": hsdesc,
+          "hsprice": hsprice,
+          "park": park,
+          "pax": pax,
+        }).then((response) {
       var data = jsonDecode(response.body);
       if (response.statusCode == 200 && data['status'] == "success") {
         Fluttertoast.showToast(

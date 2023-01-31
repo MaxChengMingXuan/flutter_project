@@ -22,7 +22,8 @@ class _SplashScreenState extends State<SplashScreen> {
         name: "unregistered",
         address: "na",
         phone: "0123456789",
-        regdate: "0");
+        regdate: "0",
+        credit: '0');
     Timer(
         const Duration(seconds: 2),
         () => Navigator.pushReplacement(context,

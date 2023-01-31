@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
               const SizedBox(height: 10),
               Image.asset(
                 'assets/images/Filmstrip2.png',
-                scale: 30,
+                scale: 300,
               ),
               const Text("Movie Search",
                   style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),

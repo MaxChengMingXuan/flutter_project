@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:convert';
 
-import '../../config.dart';
+import '../../serverconfig.dart';
 import '../../models/homestay.dart';
 
 import '../../models/user.dart';
@@ -136,7 +136,7 @@ class _HostScreenState extends State<HostScreen> {
                                     width: resWidth / 2,
                                     fit: BoxFit.cover,
                                     imageUrl:
-                                        "${Config.SERVER}/assets/homestayimages/${homestayList[index].homestayId}_1.png",
+                                        "${ServerConfig.SERVER}/assets/homestayimages/${homestayList[index].homestayId}_1.png",
                                     placeholder: (context, url) =>
                                         const LinearProgressIndicator(),
                                     errorWidget: (context, url, error) =>
@@ -307,7 +307,7 @@ class _HostScreenState extends State<HostScreen> {
     http
         .get(
       Uri.parse(
-          "${Config.SERVER}/php/loadhosthomestays.php?userid=${widget.user.id}"),
+          "${ServerConfig.SERVER}/php/loadhosthomestays.php?userid=${widget.user.id}"),
     )
         .then((response) {
       // wait for response from the request
@@ -397,9 +397,10 @@ class _HostScreenState extends State<HostScreen> {
 
   void _deleteProduct(index) {
     try {
-      http.post(Uri.parse("${Config.SERVER}/php/delete_product.php"), body: {
-        "homestayid": homestayList[index].homestayId,
-      }).then((response) {
+      http.post(Uri.parse("${ServerConfig.SERVER}/php/delete_homestay.php"),
+          body: {
+            "homestayid": homestayList[index].homestayId,
+          }).then((response) {
         var data = jsonDecode(response.body);
         if (response.statusCode == 200 && data['status'] == "success") {
           Fluttertoast.showToast(
